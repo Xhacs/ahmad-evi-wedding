@@ -1,171 +1,163 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Undangan Ahmad & Evi</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Layar pembuka -->
-  <div id="splash-screen">
-    <div class="splash-content">
-      <h1>Wilujeng Sumping</h1>
-      <p>Undangan pernikahan Ahmad & Evi</p>
-      <button onclick="bukaUndangan()">Buka Undangan</button>
-    </div>
-  </div>
 
-  <!-- Musik otomatis saat undangan dibuka -->
-  <audio id="musik" loop>
+  <!-- ===== Splash / Cover ===== -->
+  <section id="splash" class="splash" style="--splash-bg:url('assets/prewed1.jpg')">
+    <div class="splash-overlay"></div>
+
+    <header class="splash-header">
+      <p class="overline">The Wedding Of</p>
+      <div class="avatar">
+        <img src="assets/prewed2.jpg" alt="Ahmad & Evi">
+      </div>
+      <h1 class="couple">Ahmad <span>&</span> Evi</h1>
+
+      <p id="recipient" class="recipient">Kpd. Bpk/Ibu/Saudara/i</p>
+
+      <!-- QR (opsional, gambar dummy) -->
+      <img class="qr" src="assets/qr-placeholder.png" alt="QR Code" onerror="this.style.display='none'"/>
+
+      <button id="openInvite" class="btn primary">
+        <span class="icon">✉️</span> Buka Undangan
+      </button>
+    </header>
+  </section>
+
+  <!-- ===== Musik ===== -->
+  <audio id="bgm" loop>
     <source src="assets/music.mp3" type="audio/mp3">
   </audio>
+  <button id="musicToggle" class="music-btn" aria-label="Toggle Musik" title="Musik">
+    <!-- ikon dibuat via CSS -->
+    <span class="note"></span>
+  </button>
 
-  <main id="konten-undangan" style="display:none;">
-    <section class="hero">
-      <div class="overlay">
-        <div class="countdown" id="countdown">
-          <div><h3 id="hari">0</h3><span>ᮙ᮪ᮉᮢᮥ (Hari)</span></div>
-          <div><h3 id="jam">0</h3><span>Jam</span></div>
-          <div><h3 id="menit">0</h3><span>Menit</span></div>
-          <div><h3 id="detik">0</h3><span>Detik</span></div>
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <a href="#home" class="brand">Ahmad & Evi</a>
+    <input type="checkbox" id="navcheck">
+    <label for="navcheck" class="burger" aria-label="Menu">☰</label>
+    <div class="links">
+      <a href="#home">Home</a>
+      <a href="#mempelai">Mempelai</a>
+      <a href="#acara">Acara</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#ucapan">Ucapan</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main id="main" class="hidden">
+    <!-- Home -->
+    <section id="home" class="section hero">
+      <div class="hero-inner">
+        <p class="overline">Dengan Rahmat Allah SWT</p>
+        <h2 class="title">Ahmad <span>&</span> Evi</h2>
+        <p class="subtitle">Senin, 29 September 2025 — Garut, Jawa Barat</p>
+
+        <div id="countdown" class="countdown">
+          <div><h3 id="dd">0</h3><span>Hari</span></div>
+          <div><h3 id="hh">0</h3><span>Jam</span></div>
+          <div><h3 id="mm">0</h3><span>Menit</span></div>
+          <div><h3 id="ss">0</h3><span>Detik</span></div>
         </div>
-        <h1 class="aksara">ᮃᮠ᮪ᮙᮓ᮪ ᮄᮗᮤ</h1>
-        <h2>Ahmad & Evi</h2>
-        <p>Wilujeng sumping ka acara pernikahan kami</p>
       </div>
     </section>
 
-    <section class="doa" id="doa-pernikahan">
-      <div class="container">
-        <p class="arabic">بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
-        <p class="terjemah">Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang</p>
-
-        <p>Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:</p>
-        <h2>Ahmad Yusup & Evi Nopiani</h2>
-        <p>yang InsyaAllah akan dilaksanakan pada:</p>
-        <p><strong>Senin, 29 September 2025</strong></p>
-
-        <hr>
-
-        <p class="arabic">
-          وَمِنْ آيَاتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَٰجًۭا لِّتَسْكُنُوٓا۟ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةًۭ وَرَحْمَةً ۚ
-        </p>
-        <p class="terjemah">
-          Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, agar kamu merasa tenteram padanya, dan Dia menjadikan di antara kalian rasa kasih dan sayang.
-        </p>
-        <p style="text-align: right; font-size: 14px;">(QS. Ar-Rum: 21)</p>
-
-        <hr>
-
-        <p class="arabic">بارَكَ اللَّهُ لَك، وَبارَكَ عَلَيْك، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ</p>
-        <p class="terjemah">
-          Semoga Allah memberkahimu, dan memberkahi atasmu, serta mengumpulkan kalian dalam kebaikan.
-        </p>
-      </div>
-    </section>
-
-    <section class="mempelai">
-      <h2>Tentang Mempelai</h2>
-      <div class="profil">
-        <div>
+    <!-- Mempelai -->
+    <section id="mempelai" class="section mempelai reveal">
+      <h3 class="section-title">Mempelai</h3>
+      <div class="cards">
+        <article class="card">
           <img src="assets/evi.jpg" alt="Evi Nopiani">
-          <h3>Evi Nopiani</h3>
-          <p>Putri dari Bapak Obar dan Ibu Dedeh</p>
-        </div>
-        <div>
-          <img src="assets/ahmad.jpg" alt="Ahmad Yusuf">
-          <h3>Ahmad Yusuf</h3>
-          <p>Putra dari Bapak Wawan dan Ibu Imas</p>
-        </div>
+          <h4>Evi Nopiani</h4>
+          <p>Putri dari Bapak Obay & Ibu Dedeh</p>
+          <a class="ig" href="https://www.instagram.com/nopiani_e/" target="_blank">@evi.nopiani</a>
+        </article>
+        <article class="card">
+          <img src="assets/ahmad.jpg" alt="Ahmad Yusup">
+          <h4>Ahmad Yusup</h4>
+          <p>Putra dari Bapak Wawan & Ibu Imas</p>
+          <a class="ig" href="https://www.instagram.com/si._.karman04/" target="_blank">@ahmad.yusuf</a>
+        </article>
       </div>
     </section>
 
-    <section class="acara">
-      <h2>Waktu & Tempat</h2>
-      <h3>Akad Nikah</h3>
-      <p><strong>Tanggal:</strong> Senin, 29 September 2025</p>
-      <p><strong>Waktu:</strong> 08.00 – 11.00 WIB</p>
-      <p><strong>Lokasi:</strong> Kp. Sukasari RT.01 RW.06, Desa Mekarasari, Kec. Cilawu, Kab. Garut, Jawa Barat</p>
+    <!-- Acara -->
+    <section id="acara" class="section acara reveal">
+      <h3 class="section-title">Waktu & Tempat</h3>
+      <div class="grid-two">
+        <div class="info-card">
+          <h4>Akad Nikah</h4>
+          <p><strong>Tanggal:</strong> Senin, 29 September 2025</p>
+          <p><strong>Waktu:</strong> 08.00 – 11.00 WIB</p>
+          <p><strong>Lokasi:</strong> Kp. Sukasari RT.01 RW.06, Desa Mekarasari, Kec. Cilawu, Kab. Garut</p>
+        </div>
+        <div class="info-card">
+          <h4>Resepsi</h4>
+          <p><strong>Tanggal:</strong> Senin, 29 September 2025</p>
+          <p><strong>Waktu:</strong> 11.00 – 15.00 WIB</p>
+          <p><strong>Lokasi:</strong> Kp. Sukasari RT.01 RW.06, Desa Mekarasari, Kec. Cilawu, Kab. Garut</p>
+        </div>
+      </div>
 
-      <h3>Resepsi</h3>
-      <p><strong>Tanggal:</strong> Senin, 29 September 2025</p>
-      <p><strong>Waktu:</strong> 11.00 – 15.00 WIB</p>
-      <p><strong>Lokasi:</strong> Kp. Sukasari RT.01 RW.06, Desa Mekarasari, Kec. Cilawu, Kab. Garut, Jawa Barat</p>
-
-      <iframe src="https://maps.google.com/maps?q=Desa%20Mekarasari%20Cilawu%20Garut&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"></iframe>
+      <div class="map-wrap">
+        <iframe
+          src="https://maps.google.com/maps?q=Desa%20Mekarasari%20Cilawu%20Garut&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
     </section>
-    <section class="rangkaian">
-  <h2>Rangkaian Acara</h2>
-  <ul class="timeline">
-    <li>
-      <span class="waktu">07.30 WIB</span>
-      <p>Kedatangan tamu undangan</p>
-    </li>
-    <li>
-      <span class="waktu">08.00 WIB</span>
-      <p>Prosesi Akad Nikah</p>
-    </li>
-    <li>
-      <span class="waktu">09.30 WIB</span>
-      <p>Ramah tamah & foto bersama</p>
-    </li>
-    <li>
-      <span class="waktu">11.00 WIB</span>
-      <p>Mulai Resepsi & Hiburan</p>
-    </li>
-    <li>
-      <span class="waktu">12.00 WIB</span>
-      <p>Tradisi Saweran & Ngabagea</p>
-    </li>
-    <li>
-      <span class="waktu">15.00 WIB</span>
-      <p>Penutupan acara</p>
-    </li>
-  </ul>
-</section>
-    <section class="galeri">
-      <h2>Galeri</h2>
-      <div class="foto">
+
+    <!-- Galeri -->
+    <section id="galeri" class="section galeri reveal">
+      <h3 class="section-title">Galeri</h3>
+      <div class="gallery">
         <img src="assets/prewed1.jpg" alt="Foto 1">
         <img src="assets/prewed2.jpg" alt="Foto 2">
         <img src="assets/prewed3.jpg" alt="Foto 3">
+        <img src="assets/prewed4.jpg" alt="Foto 4">
+        <img src="assets/prewed5.jpg" alt="Foto 5">
+        <img src="assets/prewed6.jpg" alt="Foto 6">
       </div>
     </section>
 
-    <section class="rsvp">
-      <h2>RSVP</h2>
-      <form id="rsvp-form">
+    <!-- Ucapan -->
+    <section id="ucapan" class="section ucapan reveal">
+      <h3 class="section-title">Ucapan & Doa</h3>
+
+      <blockquote class="ayat">
+        <span class="arab">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِّنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا...</span>
+        <span class="arti">“Dan di antara tanda-tanda (kebesaran)-Nya, Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri...” (QS. Ar-Rum: 21)</span>
+      </blockquote>
+
+      <form id="wishForm" class="wish-form">
         <input type="text" id="nama" placeholder="Nama Anda" required>
-        <select id="kehadiran" required>
-          <option value="">Kehadiran</option>
-          <option value="Hadir">Hadir</option>
-          <option value="Tidak Hadir">Tidak Hadir</option>
-        </select>
-        <textarea id="ucapan" placeholder="Ucapan dan Doa"></textarea>
-        <button type="submit">Kirim</button>
+        <textarea id="pesan" rows="3" placeholder="Tuliskan ucapan dan doa..." required></textarea>
+        <button class="btn" type="submit">Kirim Ucapan</button>
       </form>
-    </section>
 
-    <section class="doa">
-      <h2>Ucapan & Doa</h2>
-      <div id="ucapan-list">
-        <p><strong>Budi:</strong> Selamat Ahmad & Evi! Semoga sakinah mawaddah warahmah.</p>
+      <div id="wishList" class="wish-list">
+        <!-- item ucapan muncul di sini -->
       </div>
     </section>
 
-    <footer>
-      <p>© 2025 Ahmad & Evi | Didamel kalayan asih</p>
+    <footer class="footer">
+      <p>© 2025 Ahmad & Evi — Hatur Nuhun kanggo sadayana</p>
     </footer>
   </main>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
-  <script>
-    function bukaUndangan() {
-      document.getElementById('splash-screen').style.display = 'none';
-      document.getElementById('konten-undangan').style.display = 'block';
-      document.getElementById('musik').play();
-    }
-  </script>
 </body>
 </html>

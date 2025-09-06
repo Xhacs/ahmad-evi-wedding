@@ -1,43 +1,84 @@
-window.onload = () => {
-  const target = new Date("2025-09-29T08:00:00").getTime();
-const ids = ["hari","jam","menit","detik"];
-function dobounce(el) {
-  el.classList.add("pop");
-  setTimeout(() => el.classList.remove("pop"), 300);
+// ===== Helper: get query parameter ?to=Nama =====
+function getParam(name){
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
 }
-setInterval(() => {
+
+// ===== Splash -> Main toggle =====
+const openBtn = document.getElementById('openInvite');
+const splash = document.getElementById('splash');
+const main = document.getElementById('main');
+const bgm = document.getElementById('bgm');
+const musicToggle = document.getElementById('musicToggle');
+
+const recipientEl = document.getElementById('recipient');
+const toName = getParam('to');
+if (toName) recipientEl.textContent = toName.toUpperCase();
+
+openBtn.addEventListener('click', () => {
+  splash.style.display = 'none';
+  main.classList.remove('hidden');
+  bgm.play().catch(()=>{ /* ignore autoplay block */ });
+  musicToggle.classList.add('playing');
+});
+
+// ===== Music toggle =====
+let playing = false;
+musicToggle.addEventListener('click', () => {
+  playing = !playing;
+  if (playing) { bgm.play(); musicToggle.classList.add('playing'); }
+  else { bgm.pause(); musicToggle.classList.remove('playing'); }
+});
+
+// ===== Countdown (set tanggal acara) =====
+const eventTime = new Date('2025-09-29T08:00:00+07:00').getTime();
+function tick(){
   const now = Date.now();
-  const d = Math.floor((target - now) / (1000 * 60 * 60 * 24));
-  const h = Math.floor(((target - now) / (1000 * 60 * 60)) % 24);
-  const m = Math.floor(((target - now) / (1000 * 60)) % 60);
-  const s = Math.floor(((target - now) / 1000) % 60);
-  [d,h,m,s].forEach((val,i) => {
-    const el = document.getElementById(ids[i]);
-    el.textContent = val >= 0 ? val : 0;
-    dobounce(el);
+  let diff = Math.max(0, eventTime - now);
+
+  const d = Math.floor(diff / (1000*60*60*24)); diff -= d*24*60*60*1000;
+  const h = Math.floor(diff / (1000*60*60));    diff -= h*60*60*1000;
+  const m = Math.floor(diff / (1000*60));       diff -= m*60*1000;
+  const s = Math.floor(diff / 1000);
+
+  document.getElementById('dd').textContent = d;
+  document.getElementById('hh').textContent = h.toString().padStart(2,'0');
+  document.getElementById('mm').textContent = m.toString().padStart(2,'0');
+  document.getElementById('ss').textContent = s.toString().padStart(2,'0');
+}
+tick();
+setInterval(tick, 1000);
+
+// ===== Reveal on scroll =====
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+},{ threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ===== Ucapan (localStorage untuk demo) =====
+const wishForm = document.getElementById('wishForm');
+const wishList = document.getElementById('wishList');
+
+function loadWishes(){
+  const arr = JSON.parse(localStorage.getItem('wishes') || '[]');
+  wishList.innerHTML = '';
+  arr.forEach(({n,p})=>{
+    const div = document.createElement('div');
+    div.className = 'wish-item';
+    div.innerHTML = `<b>${n}</b><span>${p}</span>`;
+    wishList.appendChild(div);
   });
-  if (target - now < 0) {
-    document.getElementById("countdown").innerHTML = "<p>Acara Telah Dimulai!</p>";
-  }
-}, 1000);
+}
+loadWishes();
 
-  const musik = document.getElementById('musik');
-  musik.volume = 0.5;
-
-  const form = document.getElementById('rsvp-form');
-  const ucapanList = document.getElementById('ucapan-list');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const nama = document.getElementById('nama').value;
-    const kehadiran = document.getElementById('kehadiran').value;
-    const ucapan = document.getElementById('ucapan').value;
-
-    const p = document.createElement('p');
-    p.innerHTML = `<strong>${nama}:</strong> (${kehadiran}) ${ucapan}`;
-    ucapanList.appendChild(p);
-
-    form.reset();
-  });
-};
+wishForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  const n = document.getElementById('nama').value.trim();
+  const p = document.getElementById('pesan').value.trim();
+  if(!n || !p) return;
+  const arr = JSON.parse(localStorage.getItem('wishes') || '[]');
+  arr.unshift({n, p});
+  localStorage.setItem('wishes', JSON.stringify(arr));
+  wishForm.reset();
+  loadWishes();
+});
